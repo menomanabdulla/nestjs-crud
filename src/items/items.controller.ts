@@ -10,8 +10,8 @@ export class ItemsController {
     constructor(private readonly itemService : ItemsService ) {}
 
     @Post()
-    create(@Body() createItemDto:CreateItemDto): string{
-        return `Name: ${createItemDto.name} Desc: ${createItemDto.description}`;
+    create(@Body() createItemDto:CreateItemDto): Promise<Item>{
+        return this.itemService.create(createItemDto);
     }
 
     @Get()
@@ -25,13 +25,13 @@ export class ItemsController {
     }
 
     @Put(':id')
-    update(@Param() param, @Body() createItemDto : CreateItemDto): string{
-      return `Congratulations ${createItemDto.name}, your item is successfully Updated`;
+    update(@Param() param, @Body() createItemDto : CreateItemDto): Promise<Item>{
+      return this.itemService.update(param.id, createItemDto)
     }
 
     @Delete(':id')
-    remove(@Param() param) : string{
-      return `${param.id} Item removed`;
+    remove(@Param() param) : Promise<Item>{
+      return this.itemService.delete(param.id)
     }
 
 }
